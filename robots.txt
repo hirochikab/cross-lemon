@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hirochikab.github.io/cross-lemon/sitemap.xml
