@@ -765,6 +765,210 @@ section.on-dark .section-sub{ color: rgba(250,249,245,.68); }
   margin: 0;
 }
 
+
+/* ---------- Hero "watch film" button ---------- */
+.btn-play .play-dot{
+  width: 0; height: 0;
+  border-left: 9px solid var(--yellow);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  transition: border-left-color .3s;
+}
+.btn-play:hover .play-dot{ border-left-color: var(--black); }
+
+/* ---------- Film ---------- */
+.film{
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 78% 45%, rgba(245,211,0,.10), transparent 70%),
+    var(--black-soft);
+  color: var(--white);
+  border-top: 1px solid var(--line);
+}
+.film-ghost{
+  position:absolute;
+  left: 50%; bottom: -.12em;
+  transform: translateX(-50%);
+  font-family: var(--serif-display);
+  font-size: clamp(120px, 22vw, 340px);
+  letter-spacing: .04em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(250,249,245,.05);
+  white-space: nowrap;
+  pointer-events:none;
+  user-select:none;
+}
+.film-grid{
+  position: relative;
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  grid-template-areas:
+    "text  stage"
+    "chaps stage";
+  grid-template-rows: auto 1fr;
+  column-gap: 80px;
+  align-items:end;
+}
+.film-text{ grid-area: text; }
+.film-chapters-wrap{ grid-area: chaps; align-self:start; }
+.film-stage{ grid-area: stage; align-self:center; }
+.film-title{
+  font-family: var(--font);
+  font-weight: 900;
+  font-size: clamp(30px, 4vw, 50px);
+  line-height: 1.35;
+  margin-bottom: 28px;
+}
+.film-title em{ font-style:normal; color: var(--yellow); }
+.film-lead{
+  max-width: 480px;
+  color: rgba(250,249,245,.7);
+  font-size: 15.5px;
+  margin: 0 0 40px;
+}
+
+.film-chapters{
+  list-style:none;
+  margin:0; padding:0;
+  max-width: 420px;
+  border-top: 1px solid var(--line);
+}
+.film-chapters li{ border-bottom: 1px solid var(--line); }
+.film-chapters button{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap: 22px;
+  padding: 15px 4px;
+  background:none;
+  border:none;
+  color: rgba(250,249,245,.62);
+  font-size: 14.5px;
+  letter-spacing: .06em;
+  text-align:left;
+  transition: color .25s, padding-left .35s var(--ease);
+}
+.film-chapters .t{
+  font-family: var(--serif-display);
+  font-size: 16px;
+  letter-spacing: .14em;
+  color: var(--gray);
+  min-width: 42px;
+  transition: color .25s;
+}
+.film-chapters button:hover,
+.film-chapters button.active{ color: var(--white); padding-left: 12px; }
+.film-chapters button.active .t,
+.film-chapters button:hover .t{ color: var(--yellow); }
+
+.film-stage{ display:flex; flex-direction:column; align-items:center; }
+.film-frame{
+  position:relative;
+  width: min(100%, 360px);
+  aspect-ratio: 9/16;
+  border-radius: 28px;
+  overflow:hidden;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(250,249,245,.12),
+    0 40px 80px -20px rgba(0,0,0,.7),
+    0 0 120px -30px rgba(245,211,0,.25);
+}
+.film-video{
+  width:100%; height:100%;
+  object-fit: cover;
+  display:block;
+}
+.film-toggle{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  background: rgba(10,10,9,.25);
+  border:none;
+  display:flex; align-items:center; justify-content:center;
+  transition: background .3s, opacity .3s;
+}
+.film-toggle .ico-play{
+  width: 74px; height: 74px;
+  border-radius:50%;
+  background: var(--yellow);
+  position:relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  transition: transform .35s var(--ease);
+}
+.film-toggle .ico-play::before{
+  content:"";
+  position:absolute;
+  left: 50%; top: 50%;
+  transform: translate(-35%,-50%);
+  border-left: 20px solid var(--black);
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+}
+.film-toggle:hover .ico-play{ transform: scale(1.08); }
+.film-frame.playing .film-toggle{ background: transparent; opacity:0; }
+.film-frame.playing:hover .film-toggle{ opacity:1; }
+.film-frame.playing .film-toggle .ico-play{
+  background: rgba(250,249,245,.9);
+  width: 58px; height: 58px;
+}
+.film-frame.playing .film-toggle .ico-play::before{
+  border:none;
+  width: 16px; height: 18px;
+  transform: translate(-50%,-50%);
+  background: linear-gradient(90deg, var(--black) 0 5px, transparent 5px 11px, var(--black) 11px 16px);
+}
+.film-progress{
+  position:absolute; left:0; right:0; bottom:0;
+  height: 3px;
+  background: rgba(250,249,245,.18);
+  pointer-events:none;
+}
+.film-progress span{
+  display:block;
+  height:100%; width:0;
+  background: var(--yellow);
+}
+.film-full{
+  position:absolute; top: 14px; right: 14px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(250,249,245,.35);
+  background: rgba(10,10,9,.45);
+  backdrop-filter: blur(6px);
+  color: var(--white);
+  font-size: 17px;
+  line-height:1;
+  transition: background .25s, color .25s;
+}
+.film-full:hover{ background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+.film-caption{
+  margin: 22px 0 0;
+  font-family: var(--serif-display);
+  letter-spacing: .28em;
+  font-size: 13px;
+  color: var(--gray);
+}
+
+@media (max-width: 900px){
+  .film-grid{
+    grid-template-columns: 1fr;
+    grid-template-areas: "text" "stage" "chaps";
+    grid-template-rows: auto;
+    row-gap: 48px;
+  }
+  .film-lead{ margin-bottom: 0; }
+  .film-chapters{ max-width:none; }
+  .film-frame{ width: min(100%, 340px); }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  .hero-media img, .marquee-track, .scroll-cue .line{ animation:none; }
+  .reveal{ opacity:1; transform:none; transition:none; }
+}
 </style>
 
 
@@ -777,6 +981,7 @@ section.on-dark .section-sub{ color: rgba(250,249,245,.68); }
 
     <nav class="nav-links" id="navLinks">
       <a href="#concept" data-nav>CONCEPT</a>
+      <a href="#film" data-nav>FILM</a>
       <a href="#story" data-nav>STORY</a>
       <a href="#store" data-nav>STORE</a>
       <a href="#company" data-nav>COMPANY</a>
@@ -811,7 +1016,9 @@ section.on-dark .section-sub{ color: rgba(250,249,245,.68); }
       <a href="#" class="btn btn-primary base-link" target="_blank" rel="noopener">
         BASEで注文する <span class="btn-arrow">→</span>
       </a>
-      <a href="#concept" class="btn btn-outline-light">私たちについて</a>
+      <a href="#film" class="btn btn-outline-light btn-play">
+        <span class="play-dot" aria-hidden="true"></span>ムービーを観る
+      </a>
     </div>
   </div>
   <div class="scroll-cue"><span>SCROLL</span><span class="line"></span></div>
@@ -870,6 +1077,48 @@ section.on-dark .section-sub{ color: rgba(250,249,245,.68); }
         <h4>Deliver</h4>
         <p>BASEオンラインストアを通じて、全国のご家庭まで直接お届けします。</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FILM ============ -->
+<section class="film section-pad" id="film">
+  <span class="film-ghost" aria-hidden="true">YAGINADA</span>
+  <div class="container film-grid">
+    <div class="film-text reveal">
+      <span class="eyebrow">FILM — YAGINADA, MY FIELDS</span>
+      <h2 class="film-title">海と、島と、<br>わたしたちの<em>畑</em>。</h2>
+      <p class="film-lead">
+        瀬戸内に浮かぶ八木灘。穏やかな海、島々を結ぶ橋、
+        そして海を見下ろす丘のレモン畑。
+        クロスレモンが生まれる場所の一日を、約1分の映像にまとめました。
+      </p>
+    </div>
+
+    <div class="film-chapters-wrap reveal">
+      <ol class="film-chapters" id="filmChapters">
+        <li><button type="button" data-time="0"><span class="t">0:00</span>瀬戸の海</button></li>
+        <li><button type="button" data-time="42"><span class="t">0:42</span>八木灘の畑</button></li>
+        <li><button type="button" data-time="47"><span class="t">0:47</span>実り</button></li>
+        <li><button type="button" data-time="50"><span class="t">0:50</span>帰りの船</button></li>
+        <li><button type="button" data-time="59"><span class="t">0:59</span>夕景</button></li>
+      </ol>
+    </div>
+
+    <div class="film-stage reveal">
+      <div class="film-frame">
+        <video id="filmVideo" class="film-video"
+               src="videos/yaginada-movie.mp4"
+               poster="images/yaginada-movie-poster.jpg"
+               muted loop playsinline preload="metadata"
+               aria-label="八木灘の海とクロスレモンの畑の映像"></video>
+        <button type="button" class="film-toggle" id="filmToggle" aria-label="再生">
+          <span class="ico-play" aria-hidden="true"></span>
+        </button>
+        <div class="film-progress" aria-hidden="true"><span id="filmBar"></span></div>
+        <button type="button" class="film-full" id="filmFull" aria-label="全画面で観る">⤢</button>
+      </div>
+      <p class="film-caption">Yaginada — Setouchi, Japan</p>
     </div>
   </div>
 </section>
@@ -1075,6 +1324,7 @@ section.on-dark .section-sub{ color: rgba(250,249,245,.68); }
         <div class="footer-col">
           <h5>SITE</h5>
           <a href="#concept">CONCEPT</a>
+          <a href="#film">FILM</a>
           <a href="#story">STORY</a>
           <a href="#store">STORE</a>
           <a href="#company">COMPANY</a>
@@ -1169,6 +1419,76 @@ const floatIO = new IntersectionObserver(
   { threshold: 0 }
 );
 if (heroEl) floatIO.observe(heroEl);
+
+// ---- Film (YAGINADA MOVIE) ----
+const filmVideo = document.getElementById("filmVideo");
+if (filmVideo) {
+  const frame = filmVideo.closest(".film-frame");
+  const toggle = document.getElementById("filmToggle");
+  const bar = document.getElementById("filmBar");
+  const chapterBtns = [...document.querySelectorAll("#filmChapters button")];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let userPaused = false;
+
+  const setPlaying = (on) => {
+    frame.classList.toggle("playing", on);
+    toggle.setAttribute("aria-label", on ? "一時停止" : "再生");
+  };
+  filmVideo.addEventListener("play", () => setPlaying(true));
+  filmVideo.addEventListener("pause", () => setPlaying(false));
+
+  toggle.addEventListener("click", () => {
+    if (filmVideo.paused) {
+      userPaused = false;
+      filmVideo.play().catch(() => {});
+    } else {
+      userPaused = true;
+      filmVideo.pause();
+    }
+  });
+
+  // 画面に入ったら自動再生、外れたら停止（ユーザーが止めた場合は再生しない）
+  if (!reduceMotion) {
+    const filmIO = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !userPaused) {
+            filmVideo.play().catch(() => {});
+          } else if (!entry.isIntersecting) {
+            filmVideo.pause();
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
+    filmIO.observe(frame);
+  }
+
+  // 進行バーと現在のチャプター表示
+  filmVideo.addEventListener("timeupdate", () => {
+    const t = filmVideo.currentTime;
+    if (filmVideo.duration) bar.style.width = (t / filmVideo.duration) * 100 + "%";
+    let current = chapterBtns[0];
+    chapterBtns.forEach((b) => {
+      if (t >= Number(b.dataset.time)) current = b;
+    });
+    chapterBtns.forEach((b) => b.classList.toggle("active", b === current));
+  });
+
+  chapterBtns.forEach((b) => {
+    b.addEventListener("click", () => {
+      filmVideo.currentTime = Number(b.dataset.time);
+      userPaused = false;
+      filmVideo.play().catch(() => {});
+    });
+  });
+
+  document.getElementById("filmFull").addEventListener("click", () => {
+    if (filmVideo.requestFullscreen) filmVideo.requestFullscreen();
+    else if (filmVideo.webkitEnterFullscreen) filmVideo.webkitEnterFullscreen();
+    filmVideo.play().catch(() => {});
+  });
+}
 
 // ---- Footer year ----
 document.getElementById("year").textContent = new Date().getFullYear();
